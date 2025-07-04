@@ -1,0 +1,295 @@
+user_types
++--------------+----------+------+-----+---------+-------+
+| Field        | Type     | Null | Key | Default | Extra |
++--------------+----------+------+-----+---------+-------+
+| user_type_id | int      | NO   | PRI | NULL    |       |
+| type         | char(15) | NO   |     | NULL    |       |
++--------------+----------+------+-----+---------+-------+
+
+statuses
++-----------+----------+------+-----+---------+-------+
+| Field     | Type     | Null | Key | Default | Extra |
++-----------+----------+------+-----+---------+-------+
+| status_id | int      | NO   | PRI | NULL    |       |
+| name      | char(15) | NO   |     | NULL    |       |
++-----------+----------+------+-----+---------+-------+
+
+users
++-----------------+--------------+------+-----+------------------------------+-------+
+| Field           | Type         | Null | Key | Default                      | Extra |
++-----------------+--------------+------+-----+------------------------------+-------+
+| user_id         | int          | NO   | PRI | NULL                         |       |
+| name            | char(45)     | NO   |     | NULL                         |       |
+| email           | varchar(255) | NO   | UNI | NULL                         |       |
+| password        | varchar(255) | NO   |     | NULL                         |       |
+| dob             | date         | YES  |     | NULL                         |       |
+| contact         | char(10)     | NO   | UNI | NULL                         |       |
+| address         | varchar(500) | YES  |     | NULL                         |       |
+| profile_pic     | varchar(255) | YES  |     | static/media/images/user.png |       |
+| status_id       | int          | NO   | MUL | NULL                         |       |
+| user_type_id    | int          | NO   | MUL | NULL                         |       |
+| activation_code | varchar(255) | YES  |     | NULL                         |       |
++-----------------+--------------+------+-----+------------------------------+-------+
+
+pharma_companies
++-------------------+--------------+------+-----+---------+-------+
+| Field             | Type         | Null | Key | Default | Extra |
++-------------------+--------------+------+-----+---------+-------+
+| pharma_company_id | int          | NO   | PRI | NULL    |       |
+| user_id           | int          | NO   | MUL | NULL    |       |
+| details           | varchar(500) | NO   |     | NULL    |       |
+| license           | varchar(255) | NO   |     | NULL    |       |
++-------------------+--------------+------+-----+---------+-------+
+
+specializations
++-------------------+----------+------+-----+---------+----------------+
+| Field             | Type     | Null | Key | Default | Extra          |
++-------------------+----------+------+-----+---------+----------------+
+| specialization_id | int      | NO   | PRI | NULL    | auto_increment |
+| name              | char(45) | NO   |     | NULL    |                |
++-------------------+----------+------+-----+---------+----------------+
+
+doctors
++-------------------+-----------+------+-----+---------+----------------+
+| Field             | Type      | Null | Key | Default | Extra          |
++-------------------+-----------+------+-----+---------+----------------+
+| doctor_id         | int       | NO   | PRI | NULL    | auto_increment |
+| user_id           | int       | NO   | MUL | NULL    |                |
+| gender            | char(1)   | YES  |     | NULL    |                |
+| specialization_id | int       | NO   | MUL | NULL    |                |
+| qualification     | char(100) | YES  |     | NULL    |                |
+| experience        | int       | YES  |     | NULL    |                |
+| certificate       | char(255) | YES  |     | NULL    |                |
++-------------------+-----------+------+-----+---------+----------------+
+
+patients
+                            +-------------+----------+------+-----+---------+----------------+
+                            | Field       | Type     | Null | Key | Default | Extra          |
+                            +-------------+----------+------+-----+---------+----------------+
+    EDITED                  | patient_id  | int      | NO   | PRI | NULL    | auto_increment |
+                            | user_id     | int      | NO   |     | NULL    |                |
+                            | gender      | char(1)  | NO   |     | NULL    |                |
+                            | blood_group | char(5)  | YES  |     | NULL    |                |
+                            | weight      | float    | YES  |     | NULL    |                |
+                            | height      | int      | YES  |     | NULL    |                |
+                            | uid         | char(12) | NO   |     | NULL    |                |
+                            +-------------+----------+------+-----+---------+----------------+
++-------------+----------+------+-----+---------+----------------+
+| Field       | Type     | Null | Key | Default | Extra          |
++-------------+----------+------+-----+---------+----------------+
+| patient_id  | int      | NO   | PRI | NULL    | auto_increment |
+| user_id     | int      | NO   | MUL | NULL    |                |
+| gender      | char(1)  | NO   |     | NULL    |                |
+| blood_group | char(5)  | YES  |     | NULL    |                |
+| weight      | float    | YES  |     | NULL    |                |
+| height      | int      | YES  |     | NULL    |                |
+| uid         | char(12) | NO   |     | NULL    |                |
++-------------+----------+------+-----+---------+----------------+
+
+medicines
++--------------------+--------------+------+-----+---------+----------------+
+| Field              | Type         | Null | Key | Default | Extra          |
++--------------------+--------------+------+-----+---------+----------------+
+| medicine_id        | int          | NO   | PRI | NULL    | auto_increment |
+| pharma_company_id  | int          | NO   | MUL | NULL    |                |
+| name               | char(100)    | NO   |     | NULL    |                |
+| description        | varchar(500) | NO   |     | NULL    |                |
+| ingredients        | varchar(500) | NO   |     | NULL    |                |
+| effective_bodypart | char(100)    | NO   |     | NULL    |                |
+| side_effects       | char(100)    | NO   |     | NULL    |                |
+| warnings           | char(100)    | NO   |     | NULL    |                |
++--------------------+--------------+------+-----+---------+----------------+
+
+formats
++-----------+----------+------+-----+---------+----------------+
+| Field     | Type     | Null | Key | Default | Extra          |
++-----------+----------+------+-----+---------+----------------+
+| format_id | int      | NO   | PRI | NULL    | auto_increment |
+| name      | char(25) | NO   |     | NULL    |                |
++-----------+----------+------+-----+---------+----------------+
+
+medicine_formats
++--------------------+------+------+-----+---------+----------------+
+| Field              | Type | Null | Key | Default | Extra          |
++--------------------+------+------+-----+---------+----------------+
+| medicine_format_id | int  | NO   | PRI | NULL    | auto_increment |
+| medicine_id        | int  | NO   | MUL | NULL    |                |
+| format_id          | int  | NO   | MUL | NULL    |                |
++--------------------+------+------+-----+---------+----------------+
+
+units
++---------+----------+------+-----+---------+----------------+
+| Field   | Type     | Null | Key | Default | Extra          |
++---------+----------+------+-----+---------+----------------+
+| unit_id | int      | NO   | PRI | NULL    | auto_increment |
+| name    | char(15) | NO   |     | NULL    |                |
++---------+----------+------+-----+---------+----------------+
+
+medicine_denominations
++--------------------------+------+------+-----+---------+----------------+
+| Field                    | Type | Null | Key | Default | Extra          |
++--------------------------+------+------+-----+---------+----------------+
+| medicine_denomination_id | int  | NO   | PRI | NULL    | auto_increment |
+| medicine_format_id       | int  | NO   | MUL | NULL    |                |
+| quantity                 | int  | NO   |     | NULL    |                |
+| unit_id                  | int  | NO   | MUL | NULL    |                |
++--------------------------+------+------+-----+---------+----------------+
+
+states
++----------+----------+------+-----+---------+----------------+
+| Field    | Type     | Null | Key | Default | Extra          |
++----------+----------+------+-----+---------+----------------+
+| state_id | int      | NO   | PRI | NULL    | auto_increment |
+| name     | char(45) | NO   |     | NULL    |                |
++----------+----------+------+-----+---------+----------------+
+
+cities
++----------+----------+------+-----+---------+----------------+
+| Field    | Type     | Null | Key | Default | Extra          |
++----------+----------+------+-----+---------+----------------+
+| city_id  | int      | NO   | PRI | NULL    | auto_increment |
+| name     | char(45) | NO   |     | NULL    |                |
+| state_id | int      | NO   | MUL | NULL    |                |
++----------+----------+------+-----+---------+----------------+
+
+clinic_details
++----------------+--------------+------+-----+---------+----------------+
+| Field          | Type         | Null | Key | Default | Extra          |
++----------------+--------------+------+-----+---------+----------------+
+| clinic_id      | int          | NO   | PRI | NULL    | auto_increment |
+| name           | char(50)     | NO   |     | NULL    |                |
+| email          | char(50)     | NO   | UNI | NULL    |                |
+| password       | varchar(300) | NO   |     | NULL    |                |
+| address        | varchar(400) | NO   |     | NULL    |                |
+| contact        | varchar(10)  | NO   |     | NULL    |                |
+| facilities     | varchar(200) | NO   |     | NULL    |                |
+| closed_day     | varchar(400) | YES  |     | NULL    |                |
+| photo          | varchar(300) | YES  |     | NULL    |                |
+| certifications | varchar(400) | NO   |     | NULL    |                |
+| rating         | int          | YES  |     | NULL    |                |
++----------------+--------------+------+-----+---------+----------------+
+
+clinics
++------------------+--------------+------+-----+---------+----------------+
+| Field            | Type         | Null | Key | Default | Extra          |
++------------------+--------------+------+-----+---------+----------------+
+| clinic_id        | int          | NO   | PRI | NULL    | auto_increment |
+| doctor_id        | int          | NO   | MUL | NULL    |                |
+| address          | varchar(500) | NO   |     | NULL    |                |
+| city_id          | int          | NO   | MUL | NULL    |                |
+| contact          | char(10)     | NO   |     | NULL    |                |
+| consultation_fee | int          | NO   |     | NULL    |                |
++------------------+--------------+------+-----+---------+----------------+
+
+clinic_shifts
++-----------------+------+------+-----+---------+----------------+
+| Field           | Type | Null | Key | Default | Extra          |
++-----------------+------+------+-----+---------+----------------+
+| clinic_shift_id | int  | NO   | PRI | NULL    | auto_increment |
+| clinic_id       | int  | NO   | MUL | NULL    |                |
+| start_time      | time | NO   |     | NULL    |                |
+| end_time        | time | NO   |     | NULL    |                |
+| max_appointment | int  | NO   |     | NULL    |                |
++-----------------+------+------+-----+---------+----------------+
+
+days
++--------+----------+------+-----+---------+----------------+
+| Field  | Type     | Null | Key | Default | Extra          |
++--------+----------+------+-----+---------+----------------+
+| day_id | int      | NO   | PRI | NULL    | auto_increment |
+| name   | char(15) | NO   |     | NULL    |                |
++--------+----------+------+-----+---------+----------------+
+
+clinic_days
++---------------+------+------+-----+---------+----------------+
+| Field         | Type | Null | Key | Default | Extra          |
++---------------+------+------+-----+---------+----------------+
+| clinic_day_id | int  | NO   | PRI | NULL    | auto_increment |
+| clinic_id     | int  | NO   | MUL | NULL    |                |
+| day_id        | int  | NO   | MUL | NULL    |                |
++---------------+------+------+-----+---------+----------------+
+
+clinic_pics
++---------------+-----------+------+-----+---------+----------------+
+| Field         | Type      | Null | Key | Default | Extra          |
++---------------+-----------+------+-----+---------+----------------+
+| clinic_pic_id | int       | NO   | PRI | NULL    | auto_increment |
+| clinic_id     | int       | NO   | MUL | NULL    |                |
+| pic_path      | char(255) | NO   |     | NULL    |                |
++---------------+-----------+------+-----+---------+----------------+
+
+appointments
++------------------+------+------+-----+---------+----------------+
+| Field            | Type | Null | Key | Default | Extra          |
++------------------+------+------+-----+---------+----------------+
+| appointment_id   | int  | NO   | PRI | NULL    | auto_increment |
+| patient_id       | int  | NO   | MUL | NULL    |                |
+| appointment_date | date | NO   |     | NULL    |                |
+| clinic_shift_id  | int  | NO   | MUL | NULL    |                |
+| status_id        | int  | NO   | MUL | NULL    |                |
++------------------+------+------+-----+---------+----------------+
+
+prescriptions
++--------------------------+----------+------+-----+---------+----------------+
+| Field                    | Type     | Null | Key | Default | Extra          |
++--------------------------+----------+------+-----+---------+----------------+
+| prescription_id          | int      | NO   | PRI | NULL    | auto_increment |
+| appointment_id           | int      | NO   | MUL | NULL    |                |
+| medicine_denomination_id | int      | NO   | MUL | NULL    |                |
+| dosage                   | char(50) | NO   |     | NULL    |                |
++--------------------------+----------+------+-----+---------+----------------+
+
+patient_health_records  
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| record_id   | int          | NO   | PRI | NULL    | auto_increment |
+| patient_id  | int          | NO   | MUL | NULL    |                |
+| doctor_id   | int          | NO   | MUL | NULL    |                |
+| clinic_id   | int          | NO   | MUL | NULL    |                |
+| diagnosis   | varchar(500) | NO   |     | NULL    |                |
+| treatment   | varchar(500) | NO   |     | NULL    |                |
+| record_date | date         | NO   |     | NULL    |                |
+| medication  | varchar(300) | NO   |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+
+patient_previous_prescriptions
++-------------------+--------------+------+-----+---------+----------------+
+| Field             | Type         | Null | Key | Default | Extra          |
++-------------------+--------------+------+-----+---------+----------------+
+| prescription_id   | int          | NO   | PRI | NULL    | auto_increment |
+| patient_id        | int          | NO   | MUL | NULL    |                |
+| doctor_id         | int          | NO   | MUL | NULL    |                |
+| clinic_id         | int          | NO   | MUL | NULL    |                |
+| prescription_date | date         | NO   |     | NULL    |                |
+| dosage            | varchar(300) | NO   |     | NULL    |                |
+| duration          | char(100)    | NO   |     | NULL    |                |
+| medication        | varchar(300) | NO   |     | NULL    |                |
++-------------------+--------------+------+-----+---------+----------------+
+
+patient_previous_appointments
++------------------+--------------+------+-----+---------+----------------+
+| Field            | Type         | Null | Key | Default | Extra          |
++------------------+--------------+------+-----+---------+----------------+
+| appointment_id   | int          | NO   | PRI | NULL    | auto_increment |
+| patient_id       | int          | NO   | MUL | NULL    |                |
+| doctor_id        | int          | NO   | MUL | NULL    |                |
+| clinic_id        | int          | NO   | MUL | NULL    |                |
+| appointment_date | date         | NO   |     | NULL    |                |
+| appointment_time | time         | NO   |     | NULL    |                |
+| reason           | varchar(400) | NO   |     | NULL    |                |
++------------------+--------------+------+-----+---------+----------------+
+
+clinic_schedules
++-----------------+-----------+------+-----+---------+----------------+
+| Field           | Type      | Null | Key | Default | Extra          |
++-----------------+-----------+------+-----+---------+----------------+
+| schedule_id     | int       | NO   | PRI | NULL    | auto_increment |
+| clinic_id       | int       | NO   | MUL | NULL    |                |
+| opening_time    | time      | NO   |     | NULL    |                |
+| closing_time    | time      | NO   |     | NULL    |                |
+| max_appointment | int       | NO   |     | NULL    |                |
+| shift_type      | char(100) | NO   |     | NULL    |                |
++-----------------+-----------+------+-----+---------+----------------+
+
+26 TABLES!!!

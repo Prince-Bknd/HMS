@@ -1,0 +1,530 @@
+//Creating database named hmsdb and tables inside it;
+
+#create database hmsdb;
+#use hmsdb;
+
+create table user_types(
+    user_type_id int primary key auto_increment,
+    type char(15) not null
+);
+
+#insert into user_types (type) values ("doctor"), ("patient"), ("pharmacy");
+
+create table statuses(
+    status_id int primary key auto_increment, 
+    name char(15) not null
+);
+
+insert into statuses (name) values ("active"), ("inactive");
+insert into statuses (name) value ('diagnosed'), ('undiagnosed');
+
+create table users(
+    user_id int primary key auto_increment, 
+    name char(45) not null, 
+    email varchar(255) not null unique, 
+    password varchar(255) not null, 
+    dob date, 
+    contact char(10) not null unique, 
+    address varchar(500), 
+    profile_pic varchar(255) default 'static/media/images/user.png',
+    status_id int default 2, 
+    user_type_id int not null, 
+    activation_code varchar(255),
+    constraint fk_user_status FOREIGN KEY (status_id) REFERENCES statuses(status_id),
+    constraint fk_utypes FOREIGN KEY (user_type_id) REFERENCES user_types(user_type_id)
+);
+
+#insert into users (name, email, password, contact, user_type_id) value (?, ?, ?, ?, ?);
+
+create table pharma_companies(
+    pharma_company_id int primary key auto_increment, 
+    user_id int not null, 
+    details varchar(500) not null, 
+    license varchar(255) not null, 
+    constraint fk_userId FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+#insert into pharma_companies (user_id, details, license) value (?, ?, ?);
+
+create table specializations(
+    specialization_id int primary key auto_increment,
+    name char(45) not null
+);
+
+INSERT INTO specializations (name) VALUES
+('Anesthesiology'),
+('Cardiology'),
+('Dermatology'),
+('Endocrinology'),
+('Gastroenterology'),
+('General Surgery'),
+('Geriatrics'),
+('Gynecology'),
+('Hematology'),
+('Infectious Diseases'),
+('Internal Medicine'),
+('Nephrology'),
+('Neurology'),
+('Neurosurgery'),
+('Obstetrics'),
+('Oncology'),
+('Ophthalmology'),
+('Orthopedics'),
+('Otorhinolaryngology (ENT)'),
+('Pediatrics'),
+('Plastic Surgery'),
+('Psychiatry'),
+('Pulmonology'),
+('Radiology'),
+('Rheumatology'),
+('Sports Medicine'),
+('Traumatology'),
+('Urology'),
+('Vascular Surgery');
+
+
+create table doctors(
+    doctor_id int primary key auto_increment, 
+    user_id int not null, 
+    gender char(1), 
+    specialization_id int not null, 
+    qualification char(100), 
+    experience int, 
+    certificate char(255), 
+    constraint fk_user_id FOREIGN KEY (user_id) REFERENCES users(user_id),
+    constraint fk_specialization_id FOREIGN KEY (specialization_id) REFERENCES specializations(specialization_id)
+);
+
+alter table doctors add column star int not null default 0;
+
+alter table doctors modify column gender char(25);
+
+#insert into doctors (user_id, gender, specialization_id, experience) values (?, ?, ?, ?);
+
+#select * from doctors as do inner join specializations as sp on do.specialization_id = sp.specialization_id where user_id = ?;
+
+#select * from doctors d 
+#inner join specializations as sp on d.specialization_id = sp.specialization_id
+#inner join users as u on d.user_id = u.user_id
+#where d.specialization_id = 3;
+
+create table patients(
+    patient_id int primary key auto_increment, 
+    user_id int not null, 
+    gender char(1) not null, 
+    blood_group char(5), 
+    weight float, 
+    height int, 
+    uid char(12) not null,
+    constraint fk_puser_id FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+ 
+alter table patients modify column gender char(10) not null;
+
+#insert into patients (user_id, gender, blood_group, weight, height, uid) value (?, ?, ?, ?, ?, ?)
+
+#select * from patients where user_id=?
+
+create table medicines(
+    medicine_id int primary key auto_increment, 
+    pharma_company_id int not null, 
+    name char(100) not null,
+    description varchar(500) not null, 
+    ingredients varchar(500) not null, 
+    effective_bodypart char(100) not null,
+    side_effects char(100) not null, 
+    warnings char(100) not null,
+    constraint fk_pharma_company_id FOREIGN KEY (pharma_company_id) REFERENCES pharma_companies(pharma_company_id)
+);
+
+alter table medicines add column pic char(100) not null;
+
+#insert into medicines (pharma_company_id, name, description, ingredients, effective_bodypart, side_effects, warnings) value (?, ?, ?, ?, ?, ?, ?);
+
+#update medicines set name = ?, description = ?, ingredients = ?, effective_bodypart = ?, side_effects = ?, warnings = ? where medicine_id = ?; 
+
+create table formats(
+    format_id int primary key auto_increment, 
+    name char(25) not null
+);
+
+INSERT INTO formats (name) VALUES
+('Tablet'),
+('Capsule'),
+('Syrup'),
+('Injection'),
+('Cream'),
+('Ointment'),
+('Gel'),
+('Lotion'),
+('Drops'),
+('Inhaler'),
+('Spray'),
+('Powder'),
+('Granules'),
+('Solution'),
+('Suspension'),
+('Suppository'),
+('Patch'),
+('Emulsion'),
+('Elixir'),
+('Lozenge');
+
+
+create table medicine_formats(
+    medicine_format_id int primary key auto_increment, 
+    medicine_id int not null, 
+    format_id int not null, 
+    constraint fk_medicine_id FOREIGN KEY (medicine_id) REFERENCES medicines(medicine_id),
+    constraint fk_format_id FOREIGN KEY (format_id) REFERENCES formats(format_id)
+);
+
+#select * from medicine_formats inner join formats on medicine_formats.format_id = formats.format_id where medicine_id = ?;
+
+create table units(
+    unit_id int primary key auto_increment, 
+    name char(15) not null
+);
+
+INSERT INTO units (name) VALUES
+('mg'),
+('ml'),
+('g'),
+('kg'),
+('L'),
+('tablet'),
+('capsule'),
+('drop'),
+('spray'),
+('injection'),
+('patch'),
+('puff'),
+('unit'),
+('sachet'),
+('ampoule');
+
+
+create table medicine_denominations(
+    medicine_denomination_id int primary key auto_increment, 
+    medicine_format_id int not null, 
+    quantity int not null, 
+    unit_id int not null, 
+    constraint fk_medicine_format_id FOREIGN KEY (medicine_format_id) REFERENCES medicine_formats(medicine_format_id),
+    constraint fk_unit_id FOREIGN KEY (unit_id) REFERENCES units(unit_id)
+);
+
+#select * from medicine_denominations where medicine_format_id = ?;
+
+create table states(
+    state_id int primary key auto_increment, 
+    name char(45) not null
+);
+
+INSERT INTO states (state_id, name) VALUES
+(1, 'Andhra Pradesh'),
+(2, 'Arunachal Pradesh'),
+(3, 'Assam'),
+(4, 'Bihar'),
+(5, 'Chhattisgarh'),
+(6, 'Goa'),
+(7, 'Gujarat'),
+(8, 'Haryana'),
+(9, 'Himachal Pradesh'),
+(10, 'Jharkhand'),
+(11, 'Karnataka'),
+(12, 'Kerala'),
+(13, 'Madhya Pradesh'),
+(14, 'Maharashtra'),
+(15, 'Manipur'),
+(16, 'Meghalaya'),
+(17, 'Mizoram'),
+(18, 'Nagaland'),
+(19, 'Odisha'),
+(20, 'Punjab'),
+(21, 'Rajasthan'),
+(22, 'Sikkim'),
+(23, 'Tamil Nadu'),
+(24, 'Telangana'),
+(25, 'Tripura'),
+(26, 'Uttar Pradesh'),
+(27, 'Uttarakhand'),
+(28, 'West Bengal'),
+(29, 'Andaman and Nicobar Islands'),
+(30, 'Chandigarh'),
+(31, 'Dadra and Nagar Haveli and Daman and Diu'),
+(32, 'Delhi'),
+(33, 'Lakshadweep'),
+(34, 'Puducherry');
+
+
+create table cities(
+    city_id int primary key auto_increment, 
+    name char(45) not null, 
+    state_id int not null,
+    constraint fk_state_id FOREIGN KEY (state_id) REFERENCES states(state_id)
+);
+
+INSERT INTO cities (name, state_id) VALUES
+-- Andhra Pradesh
+('Visakhapatnam', 1), ('Vijayawada', 1), ('Guntur', 1), ('Nellore', 1), ('Tirupati', 1), 
+('Kurnool', 1), ('Kadapa', 1), ('Rajahmundry', 1), ('Kakinada', 1), ('Anantapur', 1), 
+
+-- Arunachal Pradesh
+('Itanagar', 2), ('Naharlagun', 2), ('Tawang', 2), ('Ziro', 2), ('Pasighat', 2), 
+
+-- Assam
+('Guwahati', 3), ('Dibrugarh', 3), ('Silchar', 3), ('Jorhat', 3), ('Tezpur', 3), 
+
+-- Bihar
+('Patna', 4), ('Gaya', 4), ('Bhagalpur', 4), ('Muzaffarpur', 4), ('Darbhanga', 4), 
+
+-- Chhattisgarh
+('Raipur', 5), ('Bhilai', 5), ('Bilaspur', 5), ('Korba', 5), ('Durg', 5), 
+
+-- Goa
+('Panaji', 6), ('Margao', 6), ('Vasco da Gama', 6), ('Mapusa', 6), ('Ponda', 6), 
+
+-- Gujarat
+('Ahmedabad', 7), ('Surat', 7), ('Vadodara', 7), ('Rajkot', 7), ('Bhavnagar', 7), 
+
+-- Haryana
+('Faridabad', 8), ('Gurgaon', 8), ('Panipat', 8), ('Ambala', 8), ('Yamunanagar', 8), 
+
+-- Himachal Pradesh
+('Shimla', 9), ('Manali', 9), ('Dharamshala', 9), ('Solan', 9), ('Mandi', 9), 
+
+-- Jharkhand
+('Ranchi', 10), ('Jamshedpur', 10), ('Dhanbad', 10), ('Bokaro', 10), ('Hazaribagh', 10), 
+
+-- Karnataka
+('Bengaluru', 11), ('Mysuru', 11), ('Mangaluru', 11), ('Hubballi', 11), ('Belagavi', 11), 
+
+-- Kerala
+('Thiruvananthapuram', 12), ('Kochi', 12), ('Kozhikode', 12), ('Thrissur', 12), ('Kannur', 12), 
+
+-- Madhya Pradesh
+('Bhopal', 13), ('Indore', 13), ('Jabalpur', 13), ('Gwalior', 13), ('Ujjain', 13), 
+
+-- Maharashtra
+('Mumbai', 14), ('Pune', 14), ('Nagpur', 14), ('Nashik', 14), ('Aurangabad', 14), 
+
+-- Manipur
+('Imphal', 15), ('Bishnupur', 15), ('Thoubal', 15), ('Ukhrul', 15), ('Churachandpur', 15), 
+
+-- Meghalaya
+('Shillong', 16), ('Tura', 16), ('Nongpoh', 16), ('Jowai', 16), ('Baghmara', 16), 
+
+-- Mizoram
+('Aizawl', 17), ('Lunglei', 17), ('Saiha', 17), ('Champhai', 17), ('Serchhip', 17), 
+
+-- Nagaland
+('Kohima', 18), ('Dimapur', 18), ('Mokokchung', 18), ('Tuensang', 18), ('Wokha', 18), 
+
+-- Odisha
+('Bhubaneswar', 19), ('Cuttack', 19), ('Rourkela', 19), ('Berhampur', 19), ('Sambalpur', 19), 
+
+-- Punjab
+('Ludhiana', 20), ('Amritsar', 20), ('Jalandhar', 20), ('Patiala', 20), ('Bathinda', 20), 
+
+-- Rajasthan
+('Jaipur', 21), ('Jodhpur', 21), ('Udaipur', 21), ('Ajmer', 21), ('Bikaner', 21), 
+
+-- Sikkim
+('Gangtok', 22), ('Namchi', 22), ('Mangan', 22), ('Gyalshing', 22), ('Rangpo', 22), 
+
+-- Tamil Nadu
+('Chennai', 23), ('Coimbatore', 23), ('Madurai', 23), ('Tiruchirappalli', 23), ('Salem', 23), 
+
+-- Telangana
+('Hyderabad', 24), ('Warangal', 24), ('Nizamabad', 24), ('Karimnagar', 24), ('Khammam', 24), 
+
+-- Tripura
+('Agartala', 25), ('Dharmanagar', 25), ('Udaipur', 25), ('Kailashahar', 25), ('Ambassa', 25), 
+
+-- Uttar Pradesh
+('Lucknow', 26), ('Kanpur', 26), ('Agra', 26), ('Varanasi', 26), ('Prayagraj', 26), 
+
+-- Uttarakhand
+('Dehradun', 27), ('Haridwar', 27), ('Nainital', 27), ('Rishikesh', 27), ('Almora', 27), 
+
+-- West Bengal
+('Kolkata', 28), ('Howrah', 28), ('Durgapur', 28), ('Siliguri', 28), ('Asansol', 28), 
+
+-- Union Territories
+('Port Blair', 29), ('Chandigarh', 30), ('Daman', 31), ('New Delhi', 32), ('Kavaratti', 33), ('Puducherry', 34);
+
+select * from cities as c inner join states as s where c.state_id=s.state_id order by c.name;
+
+create table clinics(
+    clinic_id int primary key auto_increment, 
+    doctor_id int not null, 
+    name char(30) not null,
+    address varchar(500) not null,
+    city_id int not null, 
+    contact char(10) not null, 
+    consultation_fee int not null, 
+    closed_day varchar(500) not null,
+    photo char(100),
+    certifications varchar(100) not null,
+    rating int default 0,
+    constraint fk_doctor_id FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id),
+    constraint fk_city_id FOREIGN KEY (city_id) REFERENCES cities(city_id)
+);
+
+alter table clinics add column description char(255) not null;
+
+#insert into clinics (doctor_id, name, address, city_id, contact, consultation_fee, closed_day, certifications, description) value (?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+#SELECT * FROM clinics as cl inner join cities as ci on cl.city_id = ci.city_id inner join states as st on ci.state_id = st.state_id WHERE doctor_id = ?;
+
+create table clinic_shifts(
+    clinic_shift_id int primary key auto_increment, 
+    clinic_id int not null, 
+    start_time time not null, 
+    end_time time not null, 
+    max_appointment int not null,
+    constraint fk_clinic_id FOREIGN KEY (clinic_id) REFERENCES clinics(clinic_id)
+);
+
+alter table clinic_shifts add COLUMN day_id INT NOT NULL, add CONSTRAINT fk_dayId_working FOREIGN KEY (day_id) REFERENCES days(day_id);
+#delete from clinic_shifts where clinic_id=?;
+select * from clinic_shifts where clinic_id = ?;
+
+create table days(
+    day_id int primary key auto_increment, 
+    name char(15) not null
+);
+
+insert into days (name) values 
+("Sunday"), 
+("Monday"), 
+("Tuesday"), 
+("Wednesday"), 
+("Thursday"), 
+("Friday"), 
+("Saturday");
+
+create table clinic_days(
+    clinic_day_id int primary key auto_increment, 
+    clinic_id int not null, 
+    day_id int not null,
+    constraint fk_clinicId FOREIGN KEY (clinic_id) REFERENCES clinics(clinic_id),
+    constraint fk_day_id FOREIGN KEY (day_id) REFERENCES days(day_id)
+);
+
+create table clinic_pics(
+    clinic_pic_id int primary key auto_increment, 
+    clinic_id int not null,
+    pic_path char(255) not null,
+    constraint fk_clinicp_id FOREIGN KEY (clinic_id) REFERENCES clinics(clinic_id)
+);
+
+create table appointments(
+    appointment_id int primary key auto_increment, 
+    patient_id int not null,
+    appointment_date date not null, 
+    schedule_id int not null, 
+    status_id int not null,
+    constraint fk_patient_id FOREIGN KEY (patient_id) REFERENCES patients(patient_id),
+    constraint fk_schedule_id FOREIGN KEY (schedule_id) REFERENCES clinic_schedules(schedule_id),
+    constraint fk_status_id FOREIGN KEY (status_id) REFERENCES statuses(status_id)
+);
+#CREATE TABLE appointments(
+#  appointment_id int NOT NULL AUTO_INCREMENT,
+#  patient_id int NOT NULL,
+#  appointment_date date NOT NULL,
+#  status_id int NOT NULL,
+#  current_date date,
+#  schedule_id int not NULL,
+#  PRIMARY KEY (appointment_id),
+#  KEY fk_patient_id (patient_id),
+#  KEY fk_status_id (status_id),
+#  KEY fk_schedule_id (schedule_id),
+#  CONSTRAINT fk_patient_id FOREIGN KEY (patient_id) REFERENCES patients (patient_id),
+#  CONSTRAINT fk_schedule_id FOREIGN KEY (schedule_id) REFERENCES clinic_schedules (schedule_id),
+#  CONSTRAINT fk_status_id FOREIGN KEY (status_id) REFERENCES statuses (status_id)
+#)
+
+ALTER TABLE appointments ADD COLUMN `current_date` DATE;
+#SELECT * FROM appointments as ap 
+#inner join statuses as sts ON ap.status_id = sts.status_id 
+#inner join clinic_schedules as cs ON ap.schedule_id = cs.schedule_id 
+#inner join clinics as c ON cs.clinic_id = c.clinic_id 
+#inner join doctors as d on c.doctor_id = d.doctor_id 
+#inner join users as u on d.user_id = u.user_id
+#inner join specializations as s on d.specialization_id = s.specialization_id
+#inner join cities as ci on c.city_id = ci.city_id
+#inner join states as st on ci.state_id = st.state_id
+#WHERE ap.patient_id = ?;
+#insert into appointments (patient_id, appointment_date, schedule_id, status_id, current_date) value (?, ?, ?, ?, ?);
+
+create table prescriptions(
+    prescription_id int primary key auto_increment, 
+    appointment_id int not null,
+    medicine_denomination_id int not null, 
+    dosage char(50) not null,
+    constraint fk_appointment_id FOREIGN KEY (appointment_id) REFERENCES appointments(appointment_id),
+    constraint fk_medicine_denomination_id FOREIGN KEY (medicine_denomination_id) REFERENCES medicine_denominations(medicine_denomination_id)
+);
+
+create table patient_health_records(
+    record_id int primary key auto_increment, 
+    patient_id int not null,
+    doctor_id int not null, 
+    clinic_id int not null, 
+    diagnosis varchar(500) not null, 
+    treatment varchar(500) not null, 
+    record_date date not null, medication varchar(300) not null,
+    constraint fk_patientId FOREIGN KEY (patient_id) REFERENCES patients(patient_id),
+    constraint fk_doctorId FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id),
+    constraint fk_clinich_id FOREIGN KEY (clinic_id) REFERENCES clinics(clinic_id)
+);
+
+create table patient_previous_prescriptions(
+    prescription_id int primary key auto_increment, 
+    patient_id int not null, 
+    doctor_id int not null, 
+    clinic_id int not null, 
+    prescription_date date not null,
+    dosage varchar(300) not null, 
+    duration char(100) not null, 
+    medication varchar(300) not null, 
+    constraint fk_patientpp_id FOREIGN KEY (patient_id) REFERENCES patients(patient_id),
+    constraint fk_doctorpp_id FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id),
+    constraint fk_clinicpp_id FOREIGN KEY (clinic_id) REFERENCES clinics(clinic_id)
+);
+
+create table patient_previous_appointments(
+    appointment_id int primary key auto_increment, 
+    patient_id int not null, 
+    doctor_id int not null, 
+    clinic_id int not null, 
+    appointment_date date not null,
+    appointment_time time not null, 
+    reason varchar(400) not null,
+    constraint fk_patientpa_id FOREIGN KEY (patient_id) REFERENCES patients(patient_id),
+    constraint fk_doctorpa_id FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id),
+    constraint fk_clinicpa_id FOREIGN KEY (clinic_id) REFERENCES clinics(clinic_id)
+);
+
+create table clinic_schedules(
+    schedule_id int primary key auto_increment, 
+    clinic_id int not null,
+    opening_time time not null, 
+    closing_time time not null, 
+    max_appointment int not null, 
+    shift_type char(100) not null,
+    constraint fk_clinics_id FOREIGN KEY (clinic_id) REFERENCES clinics(clinic_id)
+);
+
+#select * from clinic_schedules where clinic_id = ?;
+#insert into clinic_schedules (clinic_id, opening_time, closing_time, max_appointment, shift_type) value (?, ?, ?, ?, ?);
+#delete from clinic_schedules where schedule_id=?;
+
+
+================================================================================================================================================
+================================================================================================================================================
+//create table clinic_shifts(shift_id int primary key auto_increment, clinic_id int not null, shift_name 
+//char(50) not null, start_time time not null, end_time time not null, max_doctor int not null,
+//constraint fk_clinics_id FOREIGN KEY (clinic_id) REFERENCES clinics(clinic_id));
+//*clinic_shifts --> added day_id

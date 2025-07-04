@@ -1,0 +1,89 @@
+.expand-btn{
+    background-color: green;
+}
+
+.fullscreen {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    width: 150px;
+    height: 50px;
+    font-size: 18px;
+    text-align: center;
+    z-index: 1000;
+    transition: all 1s ease-in-out; /* Slow expansion */
+}
+
+.fullscreen.expanding {
+    width: 100vw;
+    height: 100vh;
+    font-size: 3rem;
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 255, 85, 0.9); /* Overlay effect */
+}
+
+/* Close Button */
+.close-btn {
+    position: fixed;
+    top: 2vh;
+    right: 30px;
+    cursor: pointer;
+    color: white;
+    display: none;
+    z-index: 1001;
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* Show close button when expanding */
+.fullscreen.expanding + .close-btn {
+    display: block;
+    opacity: 1;
+}
+
+.noscroll{
+    overflow: hidden;
+}
+
+.patient-cotent {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.signingcardanimR {
+    animation: animationCrdR 2s forwards ease;
+}
+.signingcardanimL {
+    animation: animationCrdL 2s forwards ease;
+}
+
+@keyframes animationCrdR {
+    from {
+        opacity: 0;
+        filter: blur(20px);
+        transform: translateX(+150px);
+    }
+
+    to {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateY(0);
+    }
+}
+@keyframes animationCrdL {
+    from {
+        opacity: 0;
+        filter: blur(20px);
+        transform: translateX(-150px);
+    }
+
+    to {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateY(0);
+    }
+}

@@ -1,0 +1,32 @@
+.card-style {
+  background: linear-gradient(to bottom, #d4f1f9, #a1e3fc);
+  width: 18rem; 
+  overflow: hidden;
+  border: 2px solid #74c0fc;
+}
+
+.medicine-add-inp{
+  background-color: #f1e9e9;
+}
+
+.input-field{
+  background-color: rgb(242, 243, 181);
+}
+
+.error{
+  box-shadow: 0 0 10px red;
+}
+
+.card-img {
+  background: rgb(19, 104, 119);
+  object-fit: cover;
+  height: 180px;
+  border-radius: 10px 10px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-style:hover {
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+}

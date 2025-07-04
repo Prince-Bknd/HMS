@@ -1,0 +1,96 @@
+.evaac{
+    background-color: rgb(153, 134, 49);
+}
+
+.evaac:hover {
+    background-color: rgb(0, 255, 115);
+    color: bisque;
+}
+
+.text-color{
+    color: rgb(67, 104, 74)
+}
+
+.coloradded {
+    color: goldenrod;
+}
+
+.inp-bg{
+    background-color: rgb(189, 195, 199);
+}
+
+.appointments-done-border-color{
+    border: 6px solid rgb(247, 105, 159);
+}
+
+.appointments-undone-border-color{
+    border: 6px solid rgb(186, 228, 90);
+}
+
+.doctorbg1{
+    background-image: url('../media/images/doctorbg11.webp');
+    background-size: cover;
+    background-position: 310px -400px;
+    background-repeat: no-repeat;
+    opacity: 0.9;
+}
+
+.setBgClinic{
+    background-image: url('../media/images/clinicBg.jfif');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.mxop{
+    opacity: 1;
+}
+
+.h4{
+    height: 30px;
+}
+
+.bxs{
+    box-shadow: 0 0 5px white;
+}
+
+.selectedEv{
+    background-color: rgb(0, 162, 255);
+    color: rgb(158, 156, 153);
+}
+
+.chooseHeight {
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+/* Sliding Box Style */
+/* Ensure edit-box appears above everything */
+.edit-box {
+    position: fixed;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: top 0.4s ease-in-out;
+    z-index: 1050; /* Higher than navbar */
+}
+
+/* Ensure edit-box content remains above all */
+.edit_box_content {
+    background: #fff;
+    padding: 10px;
+    width: 400px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 1100; /* Even higher */
+}
+
+.navbar {
+    z-index: 1000; /* Lower than edit-box */
+}

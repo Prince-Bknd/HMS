@@ -1,0 +1,146 @@
+.c-75{
+    color: rgb(205, 212, 212);
+}
+.view{
+    background-color: rgb(190, 197, 197);
+}
+
+.card-body-style{
+    height: 150px; 
+    overflow-y: auto; 
+    background-color: rgb(144, 235, 238);
+}
+
+.carousel-item img {
+    max-height: 400px; 
+    object-fit: cover;
+    object-position: top;
+}
+
+.carousel-card-img {
+    height: 222px; 
+    object-fit: cover;
+}
+
+.animBS1 {
+    transform: translateX(-200px);
+    animation: animationBS1 1s forwards ease;
+}
+.animBS2 {
+    transform: translateX(+200px);
+    animation: animationBS2 1s forwards ease;
+}
+
+.animiBody12 {
+    animation: animationiBody12 3s forwards ease;
+}
+
+@keyframes animationiBody12 {
+    from {
+        opacity: 0;
+        filter: blur(20px);
+    }
+
+    to {
+        opacity: 0.9;
+        filter: blur(0);
+    }
+}
+
+@keyframes animationBS1 {
+    from {
+        opacity: 0;
+        filter: blur(20px);
+        transform: translateX(-100px);
+    }
+
+    to {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateX(0);
+    }
+}
+
+@keyframes animationBS2 {
+    from {
+        opacity: 0;
+        filter: blur(20px);
+        transform: translateX(+100px);
+    }
+
+    to {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateX(0);
+    }
+}
+
+.iBody12{
+    background-color: rgba(105, 202, 209, 0.7);
+}
+
+.section-container {
+    max-width: 100%;
+    padding: 0 15px;
+}
+
+.carousel-img {
+    max-height: 400px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.clinic-card-container {
+    white-space: nowrap;
+    scroll-snap-type: x mandatory;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.clinic-card {
+    width: 18rem;
+    flex: 0 0 auto;
+    scroll-snap-align: center;
+}
+
+.card-body-style {
+    height: 150px;
+    overflow-y: auto;
+    background-color: rgb(144, 235, 238);
+}
+
+@media (max-width: 992px) {
+    .carousel-img {
+        max-height: 300px;
+    }
+    .clinic-card {
+        width: 16rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .carousel-img {
+        max-height: 250px;
+    }
+    .clinic-card {
+        width: 14rem;
+    }
+    .card-body-style {
+        height: 120px;
+    }
+}
+
+@media (max-width: 576px) {
+    .carousel-img {
+        max-height: 200px;
+    }
+    .clinic-card {
+        width: 12rem;
+    }
+    .card-body-style {
+        height: 100px;
+    }
+}
+

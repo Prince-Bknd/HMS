@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            background-color: rgb(120, 200, 253);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 4em;
+            opacity: 0;
+            filter: blur(10px);
+            transform: translateY(-50px);
+            animation: fadeInBlur 2s forwards 0.5s;
+        }
+
+        p {
+            font-size: 1.5em;
+            opacity: 0;
+            filter: blur(10px);
+            transform: translateY(-30px);
+            animation: fadeInBlur 2s forwards 1s;
+        }
+
+        @keyframes fadeInBlur {
+            from {
+                opacity: 0;
+                filter: blur(10px);
+                transform: translateY(-50px);
+            }
+
+            to {
+                opacity: 1;
+                filter: blur(0);
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>WELCOME to HealthCare Management</h1>
+    <p>WHy us eiwjfkdsnka Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto, earum tempora alias sed excepturi exercitationem, rerum vitae aut quod amet sunt ut nemo iste maxime eos placeat aliquid in? Nulla....</p>
+
+    <script>
+        function redirectToNextPage() {
+            window.location.href = "index.do";
+        }
+
+        const redirectTimeout = setTimeout(redirectToNextPage, 3000);
+
+        document.body.addEventListener("click", function () {
+            clearTimeout(redirectTimeout);
+            redirectToNextPage();
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,18 @@
+.msg{
+    margin-top: 60px;
+    margin-bottom: 60px;
+    width: 550px;
+    font-size: 30px;
+    text-align: center;
+    background-color: rgb(139, 139, 94);
+    border-radius: 11px;
+}
+
+.sub{
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+.sis{
+    margin-top: 4px;
+}

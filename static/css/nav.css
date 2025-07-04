@@ -1,0 +1,24 @@
+.box-shadow-red {
+    box-shadow: 0 0 10px red;
+}
+
+.box-shadow-green {
+    box-shadow: 0 0 10px green;
+}
+
+
+.navAnim {
+    animation: animationNav 3s forwards ease;
+}
+ 
+@keyframes animationNav {
+    from {
+        opacity: 0;
+        filter: blur(10px);
+    }
+
+    to {
+        opacity: 1;
+        filter: blur(0);
+    }
+}

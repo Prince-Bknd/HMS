@@ -1,0 +1,79 @@
+/* Animation */
+.animheader {
+    transform: translateY(-50px);
+    animation: anim 3s forwards ease;
+}
+
+@keyframes anim {
+    from {
+        opacity: 0;
+        filter: blur(10px);
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateY(2px);
+    }
+}
+
+/* Logo Image */
+.logo-img {
+    height: 120px;
+    width: 120px;
+    object-fit: cover;
+}
+
+/* Right Header Image */
+.header-img {
+    height: 10rem;
+    width: 270px;
+    max-width: 100%;
+}
+
+/* Header Text */
+.title-text {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: white;
+}
+
+.subtitle-text {
+    font-size: 1rem;
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .title-text {
+        font-size: 1.5rem;
+    }
+    .subtitle-text {
+        font-size: 0.9rem;
+    }
+    .logo-img {
+        height: 90px;
+        width: 90px;
+    }
+    .header-img {
+        height: 8rem;
+        width: 200px;
+    }
+}
+
+@media (max-width: 576px) {
+    .title-text {
+        font-size: 1.2rem;
+    }
+    .subtitle-text {
+        font-size: 0.8rem;
+    }
+    .logo-img {
+        height: 70px;
+        width: 70px;
+    }
+    .header-img {
+        height: 6rem;
+        width: 150px;
+    }
+}
